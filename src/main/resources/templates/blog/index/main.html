@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="blog/index/include_blog::header"></head>
+<head>
+	<link href="/css/blog/style.css" rel="stylesheet" type="text/css" media="all" /><!-- stylesheet -->
+	<link rel="stylesheet" type="text/css" href="/css/blog/component.css" /><!-- css for banner slider -->
+	<script type="text/javascript" src="/js/appjs/blog/modernizr.custom.js"></script><!-- js required for banner slider -->
+	<style type="text/css">
+		.gray-bg {
+		    background-color: #f3f3f4;
+		}
+		.white-bg {
+		    background-color: #ffffff;
+		}
+		.margin-top-10{
+			margin-top: 10px;
+		}
+		.margin-top-20{
+			margin-top: 20px;
+		}
+		.margin-bottom-10{
+			margin-bottom: 10px;
+		}
+		.margin-bottom-20{
+			margin-bottom: 20px;
+		}
+		.padding-20 {
+			padding: 20px 20px;
+		}
+		.font-size-14 {
+			font-size: 14px;
+		}
+		.border-0 {
+		    border: 0 !important;
+		}
+		.card {
+		    position: relative;
+		    display: flex;
+		    -webkit-box-orient: vertical;
+		    -webkit-box-direction: normal;
+		    flex-direction: column;
+		    min-width: 0;
+		    word-wrap: break-word;
+		    background-color: #fff;
+		    background-clip: border-box;
+		    border-radius: 0.25rem;
+		}
+		.card-header:first-child {
+		    border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+		}
+		.p-0 {
+		    padding: 0 !important;
+		}
+		.card-header {
+		    margin-bottom: 0;
+		    background-color: rgba(0, 0, 0, 0.03);
+		    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+		}
+		.card-img-bottom {
+		    width: 100%;
+		    border-bottom-right-radius: calc(0.25rem - 1px);
+		    border-bottom-left-radius: calc(0.25rem - 1px);
+		}
+		img {
+		    vertical-align: middle;
+		    border-style: none;
+		}
+		.pb-5, .py-5 {
+		    padding-bottom: 3rem !important;
+		}
+		.border-top-0 {
+		    border-top: 0 !important;
+		}
+		.border {
+		    border: 1px solid #dee2e6 !important;
+		}
+		.card-body {
+		    -webkit-box-flex: 1;
+		    flex: 1 1 auto;
+		    padding: 1.25rem;
+		}
+		.post-meta-read-more {
+			font-size: 12px;
+			font-style: oblique;
+		}
+	</style>
+</head>
+<body class="gray-bg" style="background-image: url('/img/blog/bg5.png')">
+	<nav th:include="blog/index/include_blog::nav"  class="navbar navbar-default navbar-custom navbar-fixed-top" ></nav>
+	<header class="intro-header" style="background-image: url('/img/blog/bg.jpg')">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+					<div class="site-heading">
+						<h1>WELCOME</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- Main Content -->
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-2">
+				<div class="white-bg padding-20">
+					<div>
+						<div class="row font-size-14">
+							<!-- <div style="text-align: center;" class="col-lg-3 col-md-4 col-sm-4 margin-bottom-10">
+								<span>62<br>原创</span>
+							</div>
+							<div style="text-align: center;" class="col-lg-3 col-md-4 col-sm-4 margin-bottom-10">
+								<span>2890<br>粉丝</span>
+							</div>
+							<div style="text-align: center;" class="col-lg-3 col-md-4 col-sm-4 margin-bottom-10">
+								<span>50<br>获赞</span>
+							</div>
+							<div style="text-align: center;" class="col-lg-3 col-md-4 col-sm-4 margin-bottom-10">
+								<span>98<br>评论</span>
+							</div>
+							<div style="text-align: center;" class="col-lg-3 col-md-4 col-sm-4 margin-bottom-10">
+								<span>1W+<br>访问</span>
+							</div>
+							<div style="text-align: center;" class="col-lg-3 col-md-4 col-sm-4 margin-bottom-10">
+								<span>5006<br>收藏</span>
+							</div> -->
+							<div>
+								<div class="col-lg-4 col-md-4 col-sm-4">
+									<span><img alt="image" class="img-circle" height="60" width="60" src="img/logo.png"/></span>
+								</div>
+								<div th:if="${isLogin} eq 0" class="col-lg-8 col-md-8 col-sm-8 margin-top-20 " style="text-align: center;">
+									<a href="/blog/login"><span>我要登录</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+									<a href="/blog/register"><span style="color: red;">免费注册</span></a>
+								</div>
+								<div th:if="${isLogin} eq 1" class="col-lg-8 col-md-8 col-sm-8 margin-top-20 dropdown profile-element">
+			                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+			                            <span class="clear">
+											 您好！<span class="text-muted text-xs block"><strong class="font-bold" th:text="${name}"></strong><b class="caret"></b></span>
+			                            </span>
+			                        </a>
+			                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+			                            <li><a @click="personal" href="#">修改头像</a></li>
+			                            <li><a @click="personal" href="#">个人资料</a></li>
+			                            <li><a @click="personal" href="#">密码修改</a></li>
+			                            <li><a @click="personal" href="#">我的信箱</a></li>
+			                            <li><a @click="personal" href="#">我的收藏</a></li>
+			                            <li class="divider"></li>
+			                            <li><a href="/logout">安全退出</a></li>
+			                        </ul>
+			                    </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="white-bg margin-top-10 padding-20">
+					<div>
+						<h4>热门文章</h4>
+					</div>
+					<br>
+					<div id="myCarousel" class="carousel slide" > 
+						<div class="carousel-inner">
+							<ol class="carousel-indicators">
+								<li data-target="#myCarousel" data-slide-to ="0" class="active" ></li>
+								<li data-target="#myCarousel" data-slide-to ="1"></li>
+								<li data-target="#myCarousel" data-slide-to ="2"></li>
+								<li data-target="#myCarousel" data-slide-to ="3"></li>
+								<li data-target="#myCarousel" data-slide-to ="4"></li>
+							</ol>
+							<div class="item active" style="cursor: pointer;">
+								<a th:href="${href1}" target="_blank">
+									<img th:src="${bContent1.cover}" alt="第一张" width="100%" style="height: 300px;cursor: pointer;">
+									<div class="w3layouts-header-title">
+										<h2 th:text="${bContent1.title}"></h2>
+									</div>
+								</a>
+							</div>
+							<div class="item" style="cursor: pointer;">
+								<a th:href="${href2}" target="_blank">
+									<img th:src="${bContent2.cover}" alt="第二张" width="100%" style="height: 300px;cursor: pointer;">
+									<div class="w3layouts-header-title">
+										<h2 th:text="${bContent2.title}"></h2>
+									</div>
+								</a>
+							</div>
+							<div class="item" style="cursor: pointer;">
+								<a th:href="${href3}" target="_blank">
+									<img th:src="${bContent3.cover}" alt="第三张" width="100%" style="height: 300px;cursor: pointer;">
+									<div class="w3layouts-header-title">
+										<h2 th:text="${bContent3.title}"></h2>
+									</div>
+								</a>
+							</div>
+							<div class="item" style="cursor: pointer;">
+								<a th:href="${href4}" target="_blank">
+									<img th:src="${bContent4.cover}" alt="第四张" width="100%" style="height: 300px;cursor: pointer;">
+									<div class="w3layouts-header-title">
+										<h2 th:text="${bContent4.title}"></h2>
+									</div>
+								</a>
+							</div>
+							<div class="item" style="cursor: pointer;">
+								<a th:href="${href5}" target="_blank">
+									<img th:src="${bContent5.cover}" alt="第五张" width="100%" style="height: 300px;cursor: pointer;">
+									<div class="w3layouts-header-title">
+										<h2 th:text="${bContent5.title}"></h2>
+									</div>
+								</a>
+							</div>
+							<!-- 左箭头 -->
+							<!-- <a href="#myCarousel" data-slide="prev" class="carousel-control left">‹
+								<span class="glyphicon glyphicon-chevron-left"></span>
+							</a> -->
+							<!-- 右箭头 -->
+							<!-- <a href="#myCarousel" data-slide="next" class="carousel-control right">›
+								<span class="glyphicon glyphicon-chevron-right"></span>
+							</a> -->
+						</div>
+					</div>
+				</div>
+				<div class="white-bg margin-top-10 padding-20">
+					<div>
+						<h4>归档</h4>
+					</div>
+					<br>
+					<div id="archiveInfo"></div>
+				</div>
+			</div>
+			<div class="col-lg-8 col-md-10">
+				<div class="white-bg padding-20">
+					<div class="col-lg-12 col-md-12">
+						<div style="text-align: right;font-family: 宋体;font-size: 14px;">
+							<span style="color: gray;">排序：</span>&nbsp;
+							<span style="color: red;cursor: pointer;" onclick="bindList(0,0)">默认</span>&nbsp;
+							<span style="color: gray;cursor: pointer;" onclick="bindList(0,1)">按更新时间</span>
+						</div>
+					<hr>
+					</div>
+					<div id="incomeNum"></div>
+					<div class="clearfix">
+						<nav id="flagLoad" aria-label="Page navigation" style="text-align: center;">
+						  <ul id="pageNumber" class="pagination pagination-sm"></ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<div th:include="blog/index/include_blog::footer"></div>
+<script type="text/javascript">
+	var limit = 10;
+	var currentPage = 0;
+	var total,allPage;
+	$(function(){
+		bindList(0,0);
+		//轮播图自动播放
+		$('#myCarousel').carousel({
+			interval: 3000,//自动播放3s
+			pause: ""//默认值："hover"，鼠标进入时暂停轮播循环，鼠标离开时恢复轮播循环。
+		});
+		findArchiveInfo();
+	});
+
+	function findArchiveInfo(){
+		$.ajax({
+			url : 'blog/open/archiveInfo',
+			method : 'get',
+			success : function(data) {
+				if(data.code == 0){
+					var htmlText = "";
+					for (var i = 0; i < data.archiveInfo.length; i++) {
+						htmlText += '<div class="col-lg-12 col-md-12 col-sm-12 margin-bottom-10">';
+						htmlText += '<h5>'+data.archiveInfo[i].year+'</h5>';
+						htmlText += '</div>';
+						for (var j = 0; j < data.archiveInfo[i].monthCountList.length; j++) {
+							htmlText += '<div style="float: left;" class="col-lg-3 col-md-4 col-sm-4 margin-bottom-20">';
+							htmlText += '<div style="text-align: center;background: #cc2105;padding: 0.5rem 0.5rem !important;border-radius: 10%;">';
+							htmlText += '<h5 style="font-size: 16px;color: #fff !important;font-weight: 700 !important;margin-block-start: 0.1em;margin-block-end: 0.1em;">';
+							htmlText += data.archiveInfo[i].monthCountList[j].count+'篇';
+							htmlText += '<span style="display: block;font-weight: 300 !important;border-top: 1px solid #dee2e6 !important;">'+data.archiveInfo[i].monthCountList[j].gtmCreateMonth+'月</span>';
+							htmlText += '</h5>';
+							htmlText += '</div>';
+							htmlText += '</div>';
+						}
+					}
+					htmlText += '<div style="height:0;clear: left;"></div>';
+					$("#archiveInfo").html(htmlText);
+				}
+			}
+		});
+	}
+	
+	// 上一页
+	function prePage() {
+		--currentPage;
+		bindList(currentPage * limit,0)
+	}
+
+	// 下一页
+	function nextPage() {
+		++currentPage;
+		bindList(currentPage * limit,0)
+	}
+	
+	// 单击分页页码显示对应页面数据
+	function toPage(num) {
+		currentPage = num-1;
+		bindList((num-1) * limit,0)
+	}
+	
+	// 分页查询
+	function bindList(offset,order) {
+		$.ajax({
+			url : 'blog/open/list?limit=10&offset=' + offset + '&currentPage=' + currentPage + '&order=' + order,
+			method : 'get',
+			dataType : 'json',
+			success : function(data) {
+				var rows = data.rows;
+				total = data.total;
+				allPage = data.allPage;
+				var htmlText = "";
+				for (i = 0; i < rows.length; i++) {
+					htmlText += '<div class="col-lg-12 col-md-12 col-sm-12 margin-bottom-20">';
+					htmlText += '<div class="card border-0 med-blog">';
+					htmlText += '<div class="card-header p-0">';
+					htmlText += '<a href="/blog/open/post/' + rows[i].cid + '" target="_blank">';
+					htmlText += '<img class="card-img-bottom" src="' + rows[i].cover + '" alt="Card image cap" style="cursor: pointer;height:240px;">';
+					htmlText += '</a>';
+					htmlText += '</div>';
+					htmlText += '<div class="card-body border border-top-0 pb-5">';
+					htmlText += '<div class="post-preview">';
+					htmlText += '<a href="/blog/open/post/' + rows[i].cid + '">';
+					htmlText += '<h2 class="post-title">';
+					htmlText += rows[i].title;
+					htmlText += '</h2>';
+					htmlText += '</a>';
+					htmlText += '<p class="post-meta">发布时间：' + rows[i].gtmModified + '</p>';
+					htmlText += '<a href="/blog/open/post/' + rows[i].cid + '" type="button" class="btn btn-info btn-sm post-meta-read-more" style="color: white;" target="_blank">READ MORE</a>';
+					htmlText += '</div>';
+					htmlText += '</div>';
+					htmlText += '</div>';
+					htmlText += '</div>';
+				}
+				$("#incomeNum").html(htmlText);
+				var pageNumberHtml = '';
+				if(currentPage == 0){
+					pageNumberHtml = '<li class="disabled"><span aria-hidden="true">&laquo;</span></li>';
+				}else{
+					pageNumberHtml = '<li><span onclick="prePage()" aria-hidden="true">&laquo;</span></li>';
+				}
+				for(var j=0; j < allPage; j++){
+					if(currentPage == j){
+						pageNumberHtml += '<li class="active"><span onclick="toPage('+(j+1)+')">'+(j+1)+'</span></li>';
+					}else{
+						pageNumberHtml += '<li><span onclick="toPage('+(j+1)+')">'+(j+1)+'</span></li>';
+					}
+				}
+				if(currentPage == allPage-1){
+					pageNumberHtml += '<li class="disabled"><span aria-hidden="true">&raquo;</span></li>';
+				}else{
+					pageNumberHtml += '<li><span onclick="nextPage()" aria-hidden="true">&raquo;</span></li>';
+				}
+				$("#pageNumber").html(pageNumberHtml);
+				document.getElementById("flagLoad").style.display = "block";
+			}
+		});
+	}
+</script>
+
+</html>

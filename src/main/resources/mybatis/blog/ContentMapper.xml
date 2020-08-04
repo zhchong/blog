@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhchong.blog.dao.ContentDao">
+
+	<select id="get" resultType="com.zhchong.blog.domain.ContentDO">
+		select 
+		`cid`,
+		`title`,
+		`slug`,
+		`created`,
+		`modified`,
+		`content`,
+		`type`,
+		`tags`,
+		`categories`,
+		`hits`,
+		`comments_num`,
+		`allow_comment`,
+		`allow_ping`,
+		`allow_feed`,
+		`feed_num`,
+		`status`,
+		`author`,
+		`gtm_create`,
+		`gtm_modified`,
+		`cover`,
+		`allow_reward`,
+		`reward_num`,
+		`allow_share`,
+		`share_num`,
+		`issue_form`,
+		`sort`,
+		`hyper_link`,
+		`del_flag`,
+		`top_flag`
+		from blog_content 
+		where cid = #{value}
+	</select>
+
+	<select id="list" resultType="com.zhchong.blog.domain.ContentDO">
+		select 
+		`cid`,
+		`title`,
+		`slug`,
+		`created`,
+		`modified`,
+		`content`,
+		`type`,
+		`tags`,
+		`categories`,
+		`hits`,
+		`comments_num`,
+		`allow_comment`,
+		`allow_ping`,
+		`allow_feed`,
+		`feed_num`,
+		`status`,
+		`author`,
+		`gtm_create`,
+		`gtm_modified`,
+		`cover`,
+		`allow_reward`,
+		`reward_num`,
+		`allow_share`,
+		`share_num`,
+		`issue_form`,
+		`sort`,
+		`hyper_link`,
+		`del_flag`,
+		`top_flag`
+		from blog_content
+        <where>  
+			<if test="cid != null and cid != ''"> and cid = #{cid} </if>
+			<if test="title != null and title != ''"> and title = #{title} </if>
+			<if test="slug != null and slug != ''"> and slug = #{slug} </if>
+			<if test="created != null and created != ''"> and created = #{created} </if>
+			<if test="modified != null and modified != ''"> and modified = #{modified} </if>
+			<if test="content != null and content != ''"> and content = #{content} </if>
+			<if test="type != null and type != ''"> and type = #{type} </if>
+			<if test="tags != null and tags != ''"> and tags = #{tags} </if>
+			<if test="categories != null and categories != ''"> and categories = #{categories} </if>
+			<if test="hits != null and hits != ''"> and hits = #{hits} </if>
+			<if test="commentsNum != null and commentsNum != ''"> and comments_num = #{commentsNum} </if>
+			<if test="allowComment != null and allowComment != ''"> and allow_comment = #{allowComment} </if>
+			<if test="allowPing != null and allowPing != ''"> and allow_ping = #{allowPing} </if>
+			<if test="allowFeed != null and allowFeed != ''"> and allow_feed = #{allowFeed} </if>
+			<if test="feedNum != null and feedNum != ''"> and feed_num = #{feedNum} </if>
+			<if test="status != null and status != ''"> and status = #{status} </if>
+			<if test="author != null and author != ''"> and author = #{author} </if>
+			<if test="gtmCreate != null and gtmCreate != ''"> and gtm_create = #{gtmCreate} </if>
+			<if test="gtmModified != null and gtmModified != ''"> and gtm_modified = #{gtmModified} </if>
+			<if test="cover != null and cover != ''"> and cover = #{cover} </if>
+			<if test="allowReward != null and allowReward != ''"> and allow_reward = #{allowReward} </if>
+			<if test="rewardNum != null and rewardNum != ''"> and reward_num = #{rewardNum} </if>
+			<if test="allowShare != null and allowShare != ''"> and allow_share = #{allowShare} </if>
+			<if test="shareNum != null and shareNum != ''"> and share_num = #{shareNum} </if>
+			<if test="issueForm != null and issueForm != ''"> and issue_form = #{issueForm} </if>
+			<if test="sort != null and sort != ''"> and sort = #{sort} </if>
+			<if test="hyperLink != null and hyperLink != ''"> and hyper_link = #{hyperLink} </if>
+			<if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+			<if test="topFlag != null and topFlag != ''"> and top_flag = #{topFlag} </if>
+		</where>
+        <choose>
+            <when test="orderBy != null and orderBy.trim() != ''">
+                order by ${orderBy} ${order}
+            </when>
+			<otherwise>
+                order by cid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit ${offset}, ${limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from blog_content
+		<where>  
+			<if test="cid != null and cid != ''"> and cid = #{cid} </if>
+			<if test="title != null and title != ''"> and title = #{title} </if>
+			<if test="slug != null and slug != ''"> and slug = #{slug} </if>
+			<if test="created != null and created != ''"> and created = #{created} </if>
+			<if test="modified != null and modified != ''"> and modified = #{modified} </if>
+			<if test="content != null and content != ''"> and content = #{content} </if>
+			<if test="type != null and type != ''"> and type = #{type} </if>
+			<if test="tags != null and tags != ''"> and tags = #{tags} </if>
+			<if test="categories != null and categories != ''"> and categories = #{categories} </if>
+			<if test="hits != null and hits != ''"> and hits = #{hits} </if>
+			<if test="commentsNum != null and commentsNum != ''"> and comments_num = #{commentsNum} </if>
+			<if test="allowComment != null and allowComment != ''"> and allow_comment = #{allowComment} </if>
+			<if test="allowPing != null and allowPing != ''"> and allow_ping = #{allowPing} </if>
+			<if test="allowFeed != null and allowFeed != ''"> and allow_feed = #{allowFeed} </if>
+			<if test="feedNum != null and feedNum != ''"> and feed_num = #{feedNum} </if>
+			<if test="status != null and status != ''"> and status = #{status} </if>
+			<if test="author != null and author != ''"> and author = #{author} </if>
+			<if test="gtmCreate != null and gtmCreate != ''"> and gtm_create = #{gtmCreate} </if>
+			<if test="gtmModified != null and gtmModified != ''"> and gtm_modified = #{gtmModified} </if>
+			<if test="cover != null and cover != ''"> and cover = #{cover} </if>
+			<if test="allowReward != null and allowReward != ''"> and allow_reward = #{allowReward} </if>
+			<if test="rewardNum != null and rewardNum != ''"> and reward_num = #{rewardNum} </if>
+			<if test="allowShare != null and allowShare != ''"> and allow_share = #{allowShare} </if>
+			<if test="shareNum != null and shareNum != ''"> and share_num = #{shareNum} </if>
+			<if test="issueForm != null and issueForm != ''"> and issue_form = #{issueForm} </if>
+			<if test="sort != null and sort != ''"> and sort = #{sort} </if>
+			<if test="hyperLink != null and hyperLink != ''"> and hyper_link = #{hyperLink} </if>
+			<if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+			<if test="topFlag != null and topFlag != ''"> and top_flag = #{topFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.zhchong.blog.domain.ContentDO" useGeneratedKeys="true" keyProperty="cid">
+		insert into blog_content
+		(
+			`title`, 
+			`slug`, 
+			`created`, 
+			`modified`, 
+			`content`, 
+			`type`, 
+			`tags`, 
+			`categories`, 
+			`hits`, 
+			`comments_num`, 
+			`allow_comment`, 
+			`allow_ping`, 
+			`allow_feed`, 
+			`feed_num`, 
+			`status`, 
+			`author`, 
+			`gtm_create`, 
+			`gtm_modified`,
+			`cover`,
+			`allow_reward`,
+			`reward_num`,
+			`allow_share`,
+			`share_num`,
+			`issue_form`,
+			`sort`,
+			`hyper_link`,
+			`del_flag`,
+			`top_flag`
+		)
+		values
+		(
+			#{title}, 
+			#{slug}, 
+			#{created}, 
+			#{modified}, 
+			#{content}, 
+			#{type}, 
+			#{tags}, 
+			#{categories}, 
+			#{hits}, 
+			#{commentsNum}, 
+			#{allowComment}, 
+			#{allowPing}, 
+			#{allowFeed}, 
+			#{feedNum}, 
+			#{status}, 
+			#{author}, 
+			#{gtmCreate}, 
+			#{gtmModified},
+			#{cover},
+			#{allowReward},
+			#{rewardNum},
+			#{allowShare},
+			#{shareNum},
+			#{issueForm},
+			#{sort},
+			#{hyperLink},
+			#{delFlag},
+			#{topFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.zhchong.blog.domain.ContentDO">
+		update blog_content 
+		<set>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="slug != null">`slug` = #{slug}, </if>
+			<if test="created != null">`created` = #{created}, </if>
+			<if test="modified != null">`modified` = #{modified}, </if>
+			<if test="content != null">`content` = #{content}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="tags != null">`tags` = #{tags}, </if>
+			<if test="categories != null">`categories` = #{categories}, </if>
+			<if test="hits != null">`hits` = #{hits}, </if>
+			<if test="commentsNum != null">`comments_num` = #{commentsNum}, </if>
+			<if test="allowComment != null">`allow_comment` = #{allowComment}, </if>
+			<if test="allowPing != null">`allow_ping` = #{allowPing}, </if>
+			<if test="allowFeed != null">`allow_feed` = #{allowFeed}, </if>
+			<if test="feedNum != null">`feed_num` = #{feedNum}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="author != null">`author` = #{author}, </if>
+			<if test="gtmCreate != null">`gtm_create` = #{gtmCreate}, </if>
+			<if test="gtmModified != null">`gtm_modified` = #{gtmModified},</if>
+			<if test="cover != null">`cover` = #{cover},</if>
+			<if test="allowReward != null"> allow_reward = #{allowReward}, </if>
+			<if test="rewardNum != null"> reward_num = #{rewardNum}, </if>
+			<if test="allowShare != null"> allow_share = #{allowShare}, </if>
+			<if test="shareNum != null"> share_num = #{shareNum},</if>
+			<if test="issueForm != null"> issue_form = #{issueForm}, </if>
+			<if test="sort != null"> sort = #{sort}, </if>
+			<if test="hyperLink != null"> hyper_link = #{hyperLink}, </if>
+			<if test="delFlag != null"> del_flag = #{delFlag}, </if>
+			<if test="topFlag != null"> top_flag = #{topFlag} </if>
+		</set>
+		where cid = #{cid}
+	</update>
+	
+	<update id="remove">
+		update blog_content set del_flag = 1 where cid = #{value}
+	</update>
+	
+	<update id="batchRemove">
+		update blog_content set del_flag = 1 where cid in 
+		<foreach item="cid" collection="array" open="(" separator="," close=")">
+			#{cid}
+		</foreach>
+	</update>
+
+	<!-- 查询年份，根据创建时间倒序排列 -->
+	<select id="findGmtCreateYears" resultType="java.util.Map">
+		SELECT DISTINCT DATE_FORMAT(gtm_create,'%Y') AS gtmCreateYear FROM blog_content ORDER BY gtm_create DESC
+	</select>
+
+	<!-- 根据年份查询当年各月份中博客数量 -->
+	<select id="findDiffMonthBlogCountByYear" resultType="java.util.Map">
+		SELECT DATE_FORMAT(gtm_create,'%m') AS gtmCreateMonth,COUNT(*) AS count
+		FROM blog_content 
+		WHERE DATE_FORMAT(gtm_create,'%Y')=#{gtmCreateYear}
+		GROUP BY DATE_FORMAT(gtm_create,'%m')
+		ORDER BY gtm_create DESC
+	</select>
+</mapper>

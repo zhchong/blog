@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhchong.tags.dao.TagsDao">
+
+	<select id="get" resultType="com.zhchong.tags.domain.TagsDO">
+		select `id`,`name`,`category`,`del_flag`,`create_by`,`create_time`,`update_by`,`update_time` from sys_tags where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.zhchong.tags.domain.TagsDO">
+		select `id`,`name`,`category`,`del_flag`,`create_by`,`create_time`,`update_by`,`update_time` from sys_tags
+        <where>  
+		  		  del_flag = 0 
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="category != null and category != 0"> and category = #{category} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_tags
+		 <where>  
+		  		  del_flag = 0 
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="category != null and category != 0"> and category = #{category} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.zhchong.tags.domain.TagsDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_tags
+		(
+			`name`, 
+			`category`, 
+			`del_flag`, 
+			`create_by`, 
+			`create_time`, 
+			`update_by`, 
+			`update_time`
+		)
+		values
+		(
+			#{name}, 
+			#{category}, 
+			#{delFlag}, 
+			#{createBy}, 
+			#{createTime}, 
+			#{updateBy}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.zhchong.tags.domain.TagsDO">
+		update sys_tags 
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="category != null">`category` = #{category}, </if>
+			<if test="createBy != null">`create_by` = #{createBy}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateBy != null">`update_by` = #{updateBy}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+<!-- 	
+	<delete id="remove">
+		delete from sys_tags where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_tags where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete> -->
+	
+	<update id="remove">
+		update sys_tags set `del_flag` = 1 where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+		update sys_tags set `del_flag` = 1 where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>
